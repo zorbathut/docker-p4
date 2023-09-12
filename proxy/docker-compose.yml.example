@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  proxy:
+    build: .
+    restart: unless-stopped
+    hostname: p4proxy
+    environment:
+      - "P4TARGET=server:1666"
+      - "P4USER=username"
+      - "P4PASSWD=Swordfish"
+      - "P4CLIENT=proxy_populate_ws"
+      - "CACHE_MAX_SIZE_MB=524288"
+      - "CACHE_MAX_EMPTY_MB=262144"
+      - "PARALLEL_SYNC=4"
+    ports:
+      - "1666:1666"
+    volumes:
+      - "/mnt/datavolumes/perforce-proxy:/data"
+    logging:
+      options:
+        max-size: "50m"
+        max-file: "5"
